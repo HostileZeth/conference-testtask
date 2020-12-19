@@ -1,26 +1,26 @@
 CREATE TABLE task (
-  id          INTEGER PRIMARY KEY,
+  id          BIGINT PRIMARY KEY,
   description VARCHAR(64) NOT NULL,
   completed   BIT NOT NULL);
   
 CREATE TABLE room (
-	id		INTEGER AUTO_INCREMENT PRIMARY KEY,
+	id		BIGINT AUTO_INCREMENT PRIMARY KEY,
 	room_name VARCHAR(15) NOT NULL,
 	description VARCHAR(64));
 	
 CREATE TABLE users (
-  username VARCHAR(50) PRIMARY KEY,
-  password VARCHAR(50) NOT NULL,
-  displaying_name VARCHAR(50) NOT NULL,
+  username VARCHAR(60) PRIMARY KEY,
+  password VARCHAR(60) NOT NULL,
+  displaying_name VARCHAR(60) NOT NULL,
   role ENUM('LISTENER', 'PRESENTER', 'ADMIN') NOT NULL);
   
 CREATE TABLE presentation (
-  id          INTEGER AUTO_INCREMENT PRIMARY KEY,
+  id          BIGINT AUTO_INCREMENT PRIMARY KEY,
   title			VARCHAR(64) NOT NULL);
   
 CREATE TABLE schedule (
-  presentation_id INTEGER PRIMARY KEY,
-  room_id INTEGER NOT NULL,
+  presentation_id BIGINT PRIMARY KEY,
+  room_id BIGINT NOT NULL,
   presentation_begin DATETIME NOT NULL,
   presentation_end DATETIME NOT NULL,
   constraint fk_schedule_room foreign key(room_id) references room(id),
@@ -28,10 +28,11 @@ CREATE TABLE schedule (
   );
 
 CREATE TABLE user_presentation (
-  user_id VARCHAR(50) NOT NULL,
-  presentation_id INTEGER NOT NULL,
+  user_id VARCHAR(60) NOT NULL,
+  presentation_id BIGINT NOT NULL,
   constraint fk_up_user foreign key(user_id) references users(username),
-  constraint fk_up_presentation foreign key(presentation_id) references presentation(id)
+  constraint fk_up_presentation foreign key(presentation_id) references presentation(id),
+  constraint pk_user_pres primary key(user_id, presentation_id)
   );
   
 

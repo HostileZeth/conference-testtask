@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<!-- 
+		<base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" />  -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Hello World</title>
+	</head>
+	<body>
+		<h1 th:text="${title}"></h1>
+    	<h2 th:text="${message}">My Dummy Data</h2>
+    	
+		<<div>Get <a href="presenter/presentation/list">protected</a> resource for presenter. (presentation list)</div>
+		<div>Get <a href="admin/room/list">rooms list</a> for admin.</div>
+		<div>Get <a href="admin/users/list">user list</a> for admin.</div>
+		<div>Get <a href="admin/users/">user list</a> for admin. (shorter link)</div>
+	</body>
+</html>
