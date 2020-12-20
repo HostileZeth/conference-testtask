@@ -17,5 +17,9 @@ public class PresentationService {
 	public List<Presentation> getPresentations() {
 		return presentationRepository.findAll();
 	}
+	
+	public void save(Presentation presentation) {
+		presentationRepository.save(presentation);
+	}
 
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sataev.conferencewebcrud.entity.User;
+import com.sataev.conferencewebcrud.entity.enumerable.Role;
 import com.sataev.conferencewebcrud.repository.UserRepository;
 
 @Service
@@ -21,6 +22,10 @@ public class UserService {
 
 	public Optional<User> findById(String id) {
 		return userRepository.findById(id);
+	}
+	
+	public List<User> findAllByRole(Role role){
+		return userRepository.findAllByRole(role);
 	}
 	
 	public User save(User user) {

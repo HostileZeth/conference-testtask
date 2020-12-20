@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sataev.conferencewebcrud.service.RoomService;
 
 @RestController
-@RequestMapping("confidential/room/")
+@RequestMapping("admin/rooms/")
 public class RoomController {
 
 	@Autowired
@@ -27,7 +27,7 @@ public class RoomController {
 	}*/
 	
 	//it works
-	@RequestMapping(value = {"/list"}, method = {RequestMethod.GET})
+	@RequestMapping(value = {"/"}, method = {RequestMethod.GET})
 	public ModelAndView welcomePage() {
 		ModelAndView model = new ModelAndView();
 		model.addObject("rooms", roomService.getRooms());

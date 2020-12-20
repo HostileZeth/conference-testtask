@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<!-- 
+		<base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" />  -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Add presentation</title>
+		<style>
+			.center {text-align: center;}
+			h1   {color: blue;}
+			.disabled-input {background: silver;}
+		</style>
+	</head>
+	<body>
+	
+			
+	
+		<form action="#" th:action="@{/presenter/presentations/create/}" th:object="${presentation}" method="post">
+		<div class="center">
+			<p>Logged in user: 
+			<p><span th:text ="*{creatorString}"></span>
+			<h1>Create presentation</h1>
+			
+		    <label for="creatorString">Creator</label>
+		    <p><input class="disabled-input" type="text" th:field="*{creatorString}" id="creatorString" placeholder="you should not see this placeholder" 
+		    readonly>
+		    <span th:if="${#fields.hasErrors('creatorString')}" th:errors="*{creatorString}"></span>
+		    
+		    <p><label for="title">Title</label>
+		    <p><input type="text" th:field="*{title}" id="title" placeholder="title">
+		    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+		    
+		    <p><label for="presentersString">Support presenters</label>
+		    <p><input type="text" th:field="*{presentersString}" id="presentersString" placeholder="space separated usernames">
+		    <span th:if="${#fields.hasErrors('presentersString')}" th:errors="*{presentersString}"></span>
+		    
+		    <p><input type="submit" value="Add presentation">
+		</div>  
+		</form>
+	</body>
+</html>

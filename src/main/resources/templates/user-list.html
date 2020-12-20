@@ -17,17 +17,17 @@
 		
 	</head>
 	<body>
-		<div class="center">Users <div sec:authorize="hasRole('ROLE_ADMIN')">(editable)</div> <div sec:authorize="!hasRole('ROLE_ADMIN')">(not editable)</div></div>
+		<div class="center"><h1>Users</h1><div sec:authorize="hasRole('ROLE_ADMIN')">(editable)</div> <div sec:authorize="!hasRole('ROLE_ADMIN')">(not editable)</div></div>
 		<p>
 		<p>
 		
 		<table class="table table-striped table-bordered tabsmall">
-			<tr><td>ID</td><td>Name</td><td>Description</td><div sec:authorize="hasRole('ROLE_ADMIN')"><td>ACTIONS (admin only)</td></div></tr> 
+			<tr><td>Username</td><td>Displaying Name</td><td>Description</td><div sec:authorize="hasRole('ROLE_ADMIN')"><td>ACTIONS (admin only)</td></div></tr> 
 			<tr th:each="users : ${users}">
 	            <td th:text="${users.username}">username</td>
 	            <td th:text="${users.displayingName}">displaying name</a></td>
 	            <td th:text="${users.role}">role</td>
-	            <div sec:authorize="hasRole('ROLE_ADMIN')"> <td>here will be actions</td> </div>
+	            <div sec:authorize="hasRole('ROLE_ADMIN')"> <td><a th:href="@{/admin/users/edit/{username}(username=${users.username})}">Edit</a></td> </div>
 	        </tr>
 
 		</table>

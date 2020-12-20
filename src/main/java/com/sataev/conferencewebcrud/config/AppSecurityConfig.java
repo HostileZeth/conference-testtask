@@ -47,7 +47,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 		.antMatchers("/").permitAll() //enabling
         .antMatchers("/h2-console/**").permitAll() //console
-		.and().formLogin().defaultSuccessUrl("/index", false)
+		.and().formLogin().defaultSuccessUrl("/", false)
 		.and().exceptionHandling().accessDeniedPage("/forbidden");
 		
 		/*http.authorizeRequests()

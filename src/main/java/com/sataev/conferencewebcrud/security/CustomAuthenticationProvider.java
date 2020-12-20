@@ -28,13 +28,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider  {
 		String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         
-        System.out.println(username);
-        
         User dbStoredUser = userService.findById(username).orElseThrow(() -> new BadCredentialsException("1000"));
         
         String role = dbStoredUser.getRole().toString();
-        
-        
         
         if (!passwordEncoder.matches(password, dbStoredUser.getPassword()))
         	throw new BadCredentialsException("1000");
@@ -49,5 +45,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider  {
 	public boolean supports(Class<?> authentication) {
 		return authentication.equals(UsernamePasswordAuthenticationToken.class);
 	}
+	
 
 }

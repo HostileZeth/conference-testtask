@@ -16,13 +16,14 @@ CREATE TABLE users (
   
 CREATE TABLE presentation (
   id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-  title			VARCHAR(64) NOT NULL);
+  title			VARCHAR(64) NOT NULL,
+  creator_username VARCHAR(64) NOT NULL);
   
 CREATE TABLE schedule (
   presentation_id BIGINT PRIMARY KEY,
   room_id BIGINT NOT NULL,
-  presentation_begin DATETIME NOT NULL,
-  presentation_end DATETIME NOT NULL,
+  presentation_begin TIMESTAMP NOT NULL,
+  presentation_end TIMESTAMP NOT NULL,
   constraint fk_schedule_room foreign key(room_id) references room(id),
   constraint fk_schedule_presentation foreign key(presentation_id) references presentation(id)
   );

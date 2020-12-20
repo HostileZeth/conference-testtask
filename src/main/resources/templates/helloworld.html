@@ -11,9 +11,24 @@
 		<h1 th:text="${title}"></h1>
     	<h2 th:text="${message}">My Dummy Data</h2>
     	
-		<<div>Get <a href="presenter/presentation/list">protected</a> resource for presenter. (presentation list)</div>
-		<div>Get <a href="admin/room/list">rooms list</a> for admin.</div>
-		<div>Get <a href="admin/users/list">user list</a> for admin.</div>
-		<div>Get <a href="admin/users/">user list</a> for admin. (shorter link)</div>
+    	<div sec:authorize="isAuthenticated()">
+    	<div>Logged in as :</div>
+    	<span th:text ="${#authentication.getPrincipal()}"></span></div>
+    	
+    	<div sec:authorize="isAnonymous()">
+    	<div>Not logged in</div>
+    	</div>
+    	
+    	<div><a href="signup">Register!</a></div>
+    	<div><a href="login">Login!</a></div>
+    	
+    	
+    	
+		<div>Get <a href="presenter/presentations/">presentation list</a> resource for presenter. (presenter only)</div>
+		
+		<div sec:authorize="hasRole('ROLE_ADMIN')">
+			<div>Get <a href="admin/rooms/">rooms list</a>(admin only)</div>
+			<div>Get <a href="admin/users/">user list</a>(admin only)</div>
+		</div>
 	</body>
 </html>

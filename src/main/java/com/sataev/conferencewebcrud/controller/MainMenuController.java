@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.sataev.conferencewebcrud.entity.User;
 import com.sataev.conferencewebcrud.entity.enumerable.Role;
+import com.sataev.conferencewebcrud.service.ScheduleService;
 import com.sataev.conferencewebcrud.service.UserService;
 
 //@RestController
@@ -19,7 +20,10 @@ import com.sataev.conferencewebcrud.service.UserService;
 public class MainMenuController {
 	
 	@Autowired private UserService userService;
+	@Autowired private ScheduleService scheduleService;
+	
 	@Autowired private PasswordEncoder passwordEncoder;
+	
 	//@Autowired private InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
 	@RequestMapping("/index")
@@ -28,7 +32,8 @@ public class MainMenuController {
 	}
 	
 	@GetMapping("/signup")
-    public ModelAndView showSignUpForm(User user) {
+    //public ModelAndView showSignUpForm(User user) {
+	public ModelAndView showSignUpForm(User user) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("add-user");
         return model;
@@ -47,17 +52,9 @@ public class MainMenuController {
     	user.setRole(Role.LISTENER);
     	
     	String password = user.getPassword();
-    	
     	user.setPassword(passwordEncoder.encode(password));
-    	
-    	System.out.println(password);
-    	System.out.println(user.getPassword());
-    	
     	userService.save(user);
     	
-    	//user doesn't actually put into context
-    	
-        //model.addAttribute("users", userService.findAll());
         model.setViewName("redirect:/index");
         return model;
     }
@@ -66,8 +63,11 @@ public class MainMenuController {
 	@RequestMapping(value = {"/", "/helloworld"}, method = {RequestMethod.GET})
 	public ModelAndView welcomePage() {
 		ModelAndView model = new ModelAndView();
-		model.addObject("title", "Spring Security Tutorial");
-		model.addObject("message", "Welcome Page !");
+		model.addObject("title", "Welcome");
+		model.addObject("message", "Main Page !");
+		
+		model.addObject("scheduleEntities", scheduleService.getPresentations());
+		
 		model.setViewName("helloworld");
 		return model;
 	}
