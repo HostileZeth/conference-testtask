@@ -34,11 +34,18 @@ public class UserEditController {
 	    return "update-user";
 	}
 	
+	@GetMapping("/delete/{username}")
+	public String deleteUser(@PathVariable("username") String username, Model model) throws Exception {
+	    User user = userService.findById(username).orElseThrow(() -> new IllegalArgumentException("Invalid username:" + username));
+	    userService.delete(user);
+	    
+	    model.addAttribute("user", user);
+	    return "redirect:/admin/users/";
+	}
+	
 	@PostMapping("/update/{username}")
 	public String updateUser(@PathVariable("username") String id, User user, 
 	  BindingResult result, Model model) {
-		
-		System.out.println("USER : " + user);
 	        
 	    userService.save(user);
 	    model.addAttribute("users", userService.findAll());

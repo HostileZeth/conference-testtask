@@ -1,31 +1,55 @@
 package com.sataev.conferencewebcrud.entity;
 
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sataev.conferencewebcrud.entity.enumerable.Role;
+import com.sun.istack.NotNull;
 
 @Entity
 @Table(name="users")
 public class User {
-	
+	@NotNull @JsonIgnore
 	@Id private String username;
+	
+	@NotNull @JsonIgnore
 	private String password;
+	
+	@NotNull
 	private String displayingName;
+	@JsonIgnore
 	private Role role;
+	
+	@OneToMany(mappedBy = "creator", cascade = {CascadeType.ALL})
+	//@JoinColumn(name="creator_username", nullable = false)
+	@JsonIgnore
+	private List<PresentationSchedule> createdPresentations;
 	
 	@ManyToMany
 	@JoinTable(
-			  name = "user_presentation", 
+			  name = "presenter_presentation", 
 			  joinColumns = @JoinColumn(name = "user_id"), 
 			  inverseJoinColumns = @JoinColumn(name = "presentation_id"))
-	private List<Presentation> presentations;
+	@JsonIgnore
+	private List<PresentationSchedule> participatedPresentations;
+	
+	@ManyToMany
+	@JoinTable(
+			  name = "listener_presentation", 
+			  joinColumns = @JoinColumn(name = "user_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "presentation_id"))
+	@JsonIgnore
+	private Set<PresentationSchedule> signUps;
 		
 	public User() {}
 	public User(String username, String password, String displayingName, Role role) {
@@ -35,12 +59,6 @@ public class User {
 		this.role = role;
 	}
 	
-	public List<Presentation> getPresentations() {
-		return presentations;
-	}
-	public void setPresentations(List<Presentation> presentations) {
-		this.presentations = presentations;
-	}
 	public String getUsername() {
 		return username;
 	}
@@ -64,6 +82,26 @@ public class User {
 	}
 	public void setRole(Role role) {
 		this.role = role;
+	}
+	
+	public List<PresentationSchedule> getParticipatedPresentations() {
+		return participatedPresentations;
+	}
+	public void setParticipatedPresentations(List<PresentationSchedule> participatedPresentations) {
+		this.participatedPresentations = participatedPresentations;
+	}
+	
+	public Set <PresentationSchedule> getSignUps() {
+		return signUps;
+	}
+	public void setSignUps(Set<PresentationSchedule> signUps) {
+		this.signUps = signUps;
+	}
+	public List<PresentationSchedule> getCreatedPresentations() {
+		return createdPresentations;
+	}
+	public void setCreatedPresentations(List<PresentationSchedule> createdPresentations) {
+		this.createdPresentations = createdPresentations;
 	}
 	@Override
 	public String toString() {

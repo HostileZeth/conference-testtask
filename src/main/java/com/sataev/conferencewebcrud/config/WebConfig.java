@@ -9,16 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan({ "com.sataev.conferencewebcrud" })
 //@Import({ AppSecurityConfig.class })
 public class WebConfig {
- 
+	
 
-	/*
-@Bean
- public InternalResourceViewResolver viewResolver() {
- InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
- viewResolver.setViewClass(JstlView.class);
- //viewResolver.setPrefix("/WEB-INF/view/");
- viewResolver.setPrefix("/templates/");
- viewResolver.setSuffix(".jsp");
- return viewResolver;
- }*/
+
 }

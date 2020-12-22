@@ -5,7 +5,20 @@
 		<!-- 
 		<base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" />  -->
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<!-- CSS only -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
 		<title>Hello World</title>
+		
+		<style>
+			
+			.inner-table {
+			  border: 1px solid black;
+			  table-layout: fixed;
+			  width: 800px;
+			}
+			
+		</style>
+		
 	</head>
 	<body>
 		<h1 th:text="${title}"></h1>
@@ -22,9 +35,57 @@
     	<div><a href="signup">Register!</a></div>
     	<div><a href="login">Login!</a></div>
     	
+    	<table class="table table-striped table-bordered tabsmall">
+			<tr><td>Room number</td><td>Presentations</td></tr>
+			<tr th:each="roomSchedule : ${roomScheduleDtos}">
+	            <td th:text="${roomSchedule.room.roomName}"></td>
+	            <!-- <td th:text="${roomSchedule.presentationScheduleList.size()}"></td>  -->
+	            
+	            <td>
+	            
+	            	<table class="table table-striped table-bordered tabsmall inner-table">
+						<tr>
+							<td>Title</td>
+							<td>Presenter</td>
+							<td>Support presenters</td>
+							<td>Start</td>
+							<td>End</td>
+							<div sec:authorize="hasRole('ROLE_LISTENER')">
+							<td>Sign up</td>
+							</div>
+						</tr>
+						<tr th:each="presentation : ${roomSchedule.presentationScheduleList}">
+							<td th:text="${presentation.title}"></td>
+							<td th:text="${presentation.creator.displayingName}"></td>
+							<td> <p th:each="presenter: ${presentation.presenters}" th:text="${presenter.displayingName}"> </p> </td>
+							<td th:text="${#temporals.format(presentation.presentationBegin, 'dd-MM-yyyy HH:mm')}"></td>
+	            			<td th:text="${#temporals.format(presentation.presentationEnd, 'dd-MM-yyyy HH:mm')}"></td>	
+	            			
+	            			<div sec:authorize="hasRole('ROLE_LISTENER')">							
+		            		<td>
+		            		
+		            		<div th:if="${presentation.isSignedUp}">
+		            			Signed up
+		            			<a th:href="@{/cancel/{id}(id=${presentation.id})}">Cancel</a>
+		            		</div>
+		            		<div th:unless="${presentation.isSignedUp}">
+		            			Not signed up
+		            			<a th:href="@{/join/{id}(id=${presentation.id})}">Sign up</a>
+		            		</div>
+		            		
+		            		</td>
+	            			</div>
+						</tr>
+	            	
+	            	</table>
+	            
+	            </td>
+	            
+	        </tr>
+
+		</table>
     	
-    	
-		<div>Get <a href="presenter/presentations/">presentation list</a> resource for presenter. (presenter only)</div>
+		<div sec:authorize="hasRole('ROLE_PRESENTER')">Get <a href="presenter/presentations/">presentation list</a> resource for presenter. (presenter only)</div>
 		
 		<div sec:authorize="hasRole('ROLE_ADMIN')">
 			<div>Get <a href="admin/rooms/">rooms list</a>(admin only)</div>

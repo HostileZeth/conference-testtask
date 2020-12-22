@@ -6,7 +6,9 @@ CREATE TABLE task (
 CREATE TABLE room (
 	id		BIGINT AUTO_INCREMENT PRIMARY KEY,
 	room_name VARCHAR(15) NOT NULL,
-	description VARCHAR(64));
+	description VARCHAR(64),
+	constraint unique_rooms_constraint UNIQUE(room_name)
+	);
 	
 CREATE TABLE users (
   username VARCHAR(60) PRIMARY KEY,
@@ -17,7 +19,9 @@ CREATE TABLE users (
 CREATE TABLE presentation (
   id          BIGINT AUTO_INCREMENT PRIMARY KEY,
   title			VARCHAR(64) NOT NULL,
-  creator_username VARCHAR(64) NOT NULL);
+  creator_username VARCHAR(64) NOT NULL,
+  constraint fk_presentation_creator foreign key(creator_username) references users(username)
+  );
   
 CREATE TABLE schedule (
   presentation_id BIGINT PRIMARY KEY,
@@ -28,15 +32,21 @@ CREATE TABLE schedule (
   constraint fk_schedule_presentation foreign key(presentation_id) references presentation(id)
   );
 
-CREATE TABLE user_presentation (
+CREATE TABLE presenter_presentation (
   user_id VARCHAR(60) NOT NULL,
   presentation_id BIGINT NOT NULL,
-  constraint fk_up_user foreign key(user_id) references users(username),
-  constraint fk_up_presentation foreign key(presentation_id) references presentation(id),
-  constraint pk_user_pres primary key(user_id, presentation_id)
+  constraint fk_pp_user foreign key(user_id) references users(username),
+  constraint fk_pp_presentation foreign key(presentation_id) references presentation(id),
+  constraint pk_presenter_pres primary key(user_id, presentation_id)
   );
   
-
+CREATE TABLE listener_presentation (
+  user_id VARCHAR(60) NOT NULL,
+  presentation_id BIGINT NOT NULL,
+  constraint fk_lp_user foreign key(user_id) references users(username),
+  constraint fk_lp_presentation foreign key(presentation_id) references presentation(id),
+  constraint pk_listener_pres primary key(user_id, presentation_id)
+  );
 
 
 	

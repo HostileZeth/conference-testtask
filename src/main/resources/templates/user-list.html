@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<head>
 		<!-- <base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" /> -->
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -27,11 +28,17 @@
 	            <td th:text="${users.username}">username</td>
 	            <td th:text="${users.displayingName}">displaying name</a></td>
 	            <td th:text="${users.role}">role</td>
-	            <div sec:authorize="hasRole('ROLE_ADMIN')"> <td><a th:href="@{/admin/users/edit/{username}(username=${users.username})}">Edit</a></td> </div>
+	            <div sec:authorize="hasRole('ROLE_ADMIN')"> 
+	            	<td>
+	            		<a th:href="@{/admin/users/edit/{username}(username=${users.username})}">Edit</a>
+	            		<a th:href="@{/admin/users/delete/{username}(username=${users.username})}">Delete</a>
+	            	</td> 
+	            </div>
 	        </tr>
 
 		</table>
 		<div class="center">
+		<a href="signup">Register new user</a>
 		<p>Click <a href="/"> here</a>
 		to go back to the Homepage.</div>
 		

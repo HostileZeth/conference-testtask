@@ -22,7 +22,7 @@ class ConferenceWebCrudApplicationTests {
 	@Transactional
 	void testRoomsService() {
 		Room room = roomService.getRoom(1);
-		String roomName = room.getName();
+		String roomName = room.getRoomName();
 		assert(roomName.equals("404"));
 	}
 }

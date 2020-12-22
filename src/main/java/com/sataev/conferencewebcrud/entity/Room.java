@@ -5,11 +5,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Room {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private long id;
 	private String roomName;
 	private String description;
@@ -30,11 +33,11 @@ public class Room {
 		this.id = id;
 	}
 
-	public String getName() {
+	public String getRoomName() {
 		return roomName;
 	}
 
-	public void setName(String name) {
+	public void setRoomName(String name) {
 		this.roomName = name;
 	}
 

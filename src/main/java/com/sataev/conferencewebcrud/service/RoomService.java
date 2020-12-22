@@ -1,6 +1,7 @@
 package com.sataev.conferencewebcrud.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,5 +20,14 @@ public class RoomService {
 	
 	public Room getRoom(long id) {
 		return roomRepository.getOne(id);
+	}
+
+	public Optional<Room> findRoomByName(String name) {
+		
+		List<Room> resultingRoom = roomRepository.findAllByRoomName(name);
+		
+		if (resultingRoom.size() == 1) return Optional.ofNullable(resultingRoom.get(0));
+			else
+				return Optional.empty();
 	}
 }

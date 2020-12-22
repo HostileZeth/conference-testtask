@@ -15,14 +15,21 @@ VALUES ('admin', '$2y$12$VKsi9myOuBidJ5GIEdeMye5IrGK8bOppl36VuqMPABtgazhwHrNCq',
 INSERT INTO presentation (title, creator_username)
 VALUES ('nice one', 'presenter'), 
 ('intresting one', 'presenter2'),
+('even more intresting one', 'presenter2'),
 ('awesome one','presenter3');
 
-INSERT INTO user_presentation (user_id, presentation_id)
+INSERT INTO presenter_presentation (user_id, presentation_id)
 VALUES ('presenter', 2),
 ('presenter', 3),
-('presenter2', 3);
+('presenter3', 3);
+
+INSERT INTO listener_presentation (user_id, presentation_id)
+VALUES ('listener', 2),
+('listener', 3),
+('listener', 4);
 
 INSERT INTO schedule (presentation_id, room_id, presentation_begin, presentation_end)
 VALUES (1, 1, '2020-10-10 08:00:00', '2020-10-10 10:00:00'),
 (2, 2, '2020-11-10 08:00:00', '2020-11-10 10:00:00'),
-(3, 3, '2020-12-10 08:00:00', '2020-12-10 10:00:00');
+(3, 3, '2020-12-10 08:00:00', '2020-12-10 10:00:00'),
+(4, 2, '2020-12-10 08:00:00', '2020-12-10 10:00:00');
