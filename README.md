@@ -1,6 +1,7 @@
 # conference-testtask
 
 Web-app available on http://localhost:8080/ .
+<p>Thymeleaf used for front-end.
 
 Initial account logins are:
 <p>admin
