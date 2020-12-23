@@ -9,18 +9,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Room {
-
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonIgnore
 	private long id;
+	
 	private String roomName;
 	private String description;
 	
 	public Room() {}
 	
-	public Room(long id, String name, String description) {
-		this.id = id;
+	public Room(String name, String description) {
 		this.roomName = name;
 		this.description = description;
 	}
@@ -47,5 +46,10 @@ public class Room {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public String toString() {
+		return "Room [id=" + id + ", roomName=" + roomName + ", description=" + description + "]";
 	}	
 }

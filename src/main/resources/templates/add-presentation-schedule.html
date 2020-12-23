@@ -10,6 +10,11 @@
 			.center {text-align: center;}
 			h1   {color: blue;}
 			.disabled-input {background: silver;}
+			
+			.input-extrawidth {
+				width:400px;
+			}
+			
 		</style>
 		
 	</head>
@@ -29,24 +34,24 @@
 			<input type="hidden" th:field="*{id}" id="id">
 			
 		    <label for="creatorString">Creator</label>
-		    <p><input class="disabled-input" type="text" th:field="*{creatorString}" id="creatorString" placeholder="you should not see this placeholder" 
+		    <p><input class="disabled-input input-extrawidth" type="text" th:field="*{creatorString}" id="creatorString" placeholder="you should not see this placeholder" 
 		    readonly>
 		    <span th:if="${#fields.hasErrors('creatorString')}" th:errors="*{creatorString}"></span>
 		    
 		    <p><label for="title">Title</label>
-		    <p><input type="text" th:field="*{title}" id="title" placeholder="title">
+		    <p><input type="text" class="input-extrawidth" th:field="*{title}" id="title" placeholder="title">
 		    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
 		    
 		    <p><label for="presentersString">Support presenters</label>
-		    <p><input type="text" th:field="*{presentersString}" id="presentersString" placeholder="space separated usernames">
+		    <p><input type="text" class="input-extrawidth" th:field="*{presentersString}" id="presentersString" placeholder="space separated usernames">
 		    <span th:if="${#fields.hasErrors('presentersString')}" th:errors="*{presentersString}"></span>
 		    
 		    <p><label for="roomString">Room</label>
-		    <p><input type="text" th:field="*{roomString}" id="roomString" placeholder="(room name)">
+		    <p><input type="text" class="input-extrawidth" th:field="*{roomString}" id="roomString" placeholder="(room name)">
 		    <span th:if="${#fields.hasErrors('roomString')}" th:errors="*{roomString}"></span>
 		    
 		    <p><label for="presentationBegin">Presentation begin</label>
-		    <p><input type="text" th:field="*{presentationBegin}" id="presentationBegin" placeholder="dd-MM-yyyy HH:mm">
+		    <p><input type="text" class="input-extrawidth" th:field="*{presentationBegin}" id="presentationBegin" placeholder="dd-MM-yyyy HH:mm">
 		    <span th:if="${#fields.hasErrors('presentationBegin')}" th:errors="*{presentationBegin}"></span>
 		    
 		    <!-- <input type="datetime-local" class="form-control" id="content" th:field="*{agenda.dateAgenda}"/>  -->
@@ -56,11 +61,18 @@
 	        min="2018-06-07T00:00" max="2018-06-14T00:00">  -->
 		    
 		    <p><label for="presentationEnd">Presentation end</label>
-		    <p><input type="text" th:field="*{presentationEnd}" id="presentationEnd" placeholder="dd-MM-yyyy HH:mm">
+		    <p><input type="text" class="input-extrawidth" th:field="*{presentationEnd}" id="presentationEnd" placeholder="dd-MM-yyyy HH:mm">
 		    <span th:if="${#fields.hasErrors('presentationEnd')}" th:errors="*{presentationEnd}"></span>
 		    
 		    <p><input type="submit" value="Add presentation-schedule">
 		</div>  
 		</form>
+		
+		<p> List of available presenters: <i>(printed to ease the testing)</i>
+		<p th:each="presenter:${availablePresenters}" th:text="${presenter.username}">
+		
+		<p> List of available rooms:
+		<p th:each="room:${rooms}" th:text="${room.roomName}">
+		
 	</body>
 </html>

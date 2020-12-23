@@ -1,8 +1,8 @@
 package com.sataev.conferencewebcrud.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,28 +11,13 @@ import com.sataev.conferencewebcrud.service.RoomService;
 @RestController
 @RequestMapping("admin/rooms/")
 public class RoomController {
-
-	@Autowired
-	private RoomService roomService;
+	@Autowired private RoomService roomService;	
 	
-	
-	/*private List<Room> generateTestRooms() {
-		/*List<Room> roomList = new ArrayList<Room>();
-		roomList.add(new Room(1, "test1", "test1"));
-		roomList.add(new Room(2, "test2", "test2"));
-		roomList.add(new Room(3, "test3", "test3"));
-		
-		
-		return roomService.getRooms();
-	}*/
-	
-	//it works
-	@RequestMapping(value = {"/"}, method = {RequestMethod.GET})
+	@GetMapping("/")
 	public ModelAndView welcomePage() {
 		ModelAndView model = new ModelAndView();
-		model.addObject("rooms", roomService.getRooms());
+		model.addObject("rooms", roomService.findAll());
 		model.setViewName("room-list");
 		return model;
 	}
-	
 }

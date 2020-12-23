@@ -1,7 +1,8 @@
 package com.sataev.conferencewebcrud.service;
 
 import java.util.List;
-import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class RoomService {
 	@Autowired
 	private RoomRepository roomRepository;
 	
-	public List<Room> getRooms() { 
+	public List<Room> findAll() { 
 		return roomRepository.findAll();
 	}
 	
@@ -22,12 +23,12 @@ public class RoomService {
 		return roomRepository.getOne(id);
 	}
 
-	public Optional<Room> findRoomByName(String name) {
-		
+	public Room findRoomByName(String name) {
 		List<Room> resultingRoom = roomRepository.findAllByRoomName(name);
 		
-		if (resultingRoom.size() == 1) return Optional.ofNullable(resultingRoom.get(0));
+		if (resultingRoom.size() == 1) return resultingRoom.get(0);
 			else
-				return Optional.empty();
+				throw new EntityNotFoundException("Entity with name "+ name + "not found.");
+				
 	}
 }

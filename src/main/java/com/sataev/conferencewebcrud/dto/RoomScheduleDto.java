@@ -6,12 +6,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sataev.conferencewebcrud.entity.PresentationSchedule;
 import com.sataev.conferencewebcrud.entity.Room;
 
+/*
+ * Required to pass schedule
+ * for single room
+ */
+
 public class RoomScheduleDto {
-	
-	/*class PresentationScheduleSignUp {
-		PresentationSchedule presentationSchedule;
-		Boolean isSignedUp;
-	}*/
 	
 	private Room room;
 	private List<PresentationSchedule> presentationScheduleList;

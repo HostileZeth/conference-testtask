@@ -9,6 +9,13 @@
 		<style>
 			.center {text-align: center;}
 			h1   {color: blue;}
+			
+			.input-extrawidth {
+				width:400px;
+			}
+			
+			
+			
 		</style>
 	</head>
 	<body>
@@ -19,15 +26,15 @@
 		<div class="center">
 		    <h1>Register user</h1>
 		    <label for="username">Username</label>
-		    <p><input type="text" th:field="*{username}" id="username" placeholder="latin symbols or digits">
+		    <p><input type="text" class="input-extrawidth" th:field="*{username}" id="username" placeholder="latin symbols or digits">
 		    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
 		    
 		    <p><label for="displayingName">Displaying name</label>
-		    <p><input type="text" th:field="*{displayingName}" id="displayingName" placeholder="Displaying name">
+		    <p><input type="text" class="input-extrawidth" th:field="*{displayingName}" id="displayingName" placeholder="Displaying name">
 		    <span th:if="${#fields.hasErrors('displayingName')}" th:errors="*{displayingName}"></span>
 		    
 		    <p><label for="username">Password</label>
-		    <p><input type="text" th:field="*{password}" id="password" placeholder="latin symbols or digits">
+		    <p><input type="text" class="input-extrawidth" th:field="*{password}" id="password" placeholder="latin symbols or digits">
 		    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>		  
 		    
 		    <p><input type="submit" value="Add User">

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.sataev.conferencewebcrud.entity.PresentationSchedule;
 import com.sataev.conferencewebcrud.entity.Room;
-import com.sataev.conferencewebcrud.entity.User;
 import com.sataev.conferencewebcrud.repository.PresentationScheduleRepository;
 
 @Service
@@ -29,17 +28,8 @@ public class PresentationScheduleService {
 		return presentationScheduleRepository.findById(id);
 	}
 	
-	public List<PresentationSchedule> getPresentationSchedulesByCreator(User creator) {
-		return presentationScheduleRepository.findAllByCreator(creator);
-	}
-	
-	public List<PresentationSchedule> getPresentationSchedulesByListener(User listener) {
-		return presentationScheduleRepository.findAllByListeners(listener);
-		//return listener.getSignUps();
-	}
-	
-	public boolean isRoomAvailable(Room room, LocalDateTime date, long id) {
-		return presentationScheduleRepository.countByRoomByDateAndNotThis(room, date, id) > 0 ? false : true;
+	public boolean isRoomAvailable(Room room, LocalDateTime begin, LocalDateTime end, long id) {
+		return presentationScheduleRepository.countByRoomByDateAndNotThis(room, begin, end, id) > 0 ? false : true;
 	}
 	
 	public List<PresentationSchedule> findAllByOrderByRoomAscPresentationBeginAsc(){

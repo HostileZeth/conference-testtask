@@ -8,7 +8,7 @@ import com.sataev.conferencewebcrud.entity.User;
 import com.sataev.conferencewebcrud.entity.enumerable.Role;
 
 public interface UserRepository extends JpaRepository<User, String> {
-
+	
 	public List<User> findAllByRole(Role role);
 	
 }

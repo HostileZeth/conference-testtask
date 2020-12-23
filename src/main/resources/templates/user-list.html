@@ -13,7 +13,17 @@
 			.tabsmall {width: 60%; margin-left: auto; margin-right: auto;}
 			.center {text-align: center;}
 			h1   {color: blue;}
-			p    {color: blue;}
+			p    {color: blue;
+			margin : 0;}
+			
+			table {
+				border-collapse: collapse;
+				margin: 0;
+				padding: 0;
+				border: 0;
+				font-size: 90%;
+			}
+			
 		</style>
 		
 	</head>
@@ -31,14 +41,23 @@
 	            <div sec:authorize="hasRole('ROLE_ADMIN')"> 
 	            	<td>
 	            		<a th:href="@{/admin/users/edit/{username}(username=${users.username})}">Edit</a>
-	            		<a th:href="@{/admin/users/delete/{username}(username=${users.username})}">Delete</a>
+	            		<p>
+	            		<div th:if="${!users.username.equals(#authentication.getPrincipal())}">
+		            		<a th:href="@{/admin/users/delete/{username}(username=${users.username})}">Delete</a>
+	            		</div> 
+	            		
+	            		<div th:unless="${!users.username.equals(#authentication.getPrincipal())}">
+		            		(this is you)
+	            		</div>
+	            		
+	            		<!-- this -->
 	            	</td> 
 	            </div>
 	        </tr>
 
 		</table>
 		<div class="center">
-		<a href="signup">Register new user</a>
+		<a href="signup">Register new user</a> (regular "signup" link)
 		<p>Click <a href="/"> here</a>
 		to go back to the Homepage.</div>
 		

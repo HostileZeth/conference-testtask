@@ -16,6 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.sataev.conferencewebcrud.entity.User;
 import com.sataev.conferencewebcrud.service.UserService;
 
+/*
+ * Required for custom authentication with single 'user' table with username, password and user role
+ */
 
 public class CustomAuthenticationProvider implements AuthenticationProvider  {
 	

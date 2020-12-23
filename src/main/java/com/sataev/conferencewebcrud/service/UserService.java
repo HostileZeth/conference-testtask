@@ -1,7 +1,9 @@
 package com.sataev.conferencewebcrud.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,5 +36,9 @@ public class UserService {
 	
 	public void delete(User user) {
 		userRepository.delete(user);
+	}
+	
+	public List<String> getUsernames() {
+		return userRepository.findAll().stream().map(User::getUsername).collect(Collectors.toCollection(ArrayList::new));
 	}
 }

@@ -14,16 +14,13 @@ public interface PresentationScheduleRepository extends JpaRepository<Presentati
 	
 	public List<PresentationSchedule> findAllByCreator(User creator);
 	
-	public List<PresentationSchedule> findAllByListeners(User listener);
-	
-	//public List<PresentationSchedule> findByEffctDateAfterAndExpDateBefore(LocalDateTime date, Room room);
-	
-	//public List<PresentationSchedule> findByRoomByDateBetweenPresentationBeginAndPresentationEnd(LocalDateTime date, Room room);
-	//public List<PresentationSchedule> findByDateBetweenPresentationBeginAndPresentationEnd(LocalDateTime date, Room room);
-	
 	public List<PresentationSchedule> findAllByOrderByRoomAscPresentationBeginAsc();
 	
-	@Query("SELECT COUNT(ps) FROM PresentationSchedule ps WHERE ?1 = ps.room AND (?2 BETWEEN ps.presentationBegin AND ps.presentationEnd) AND id <> ?3")
-	public int countByRoomByDateAndNotThis(Room room, LocalDateTime date, long id);
-	
+	@Query("SELECT COUNT(*) FROM PresentationSchedule ps " + 
+			"WHERE ps.room = ?1 " + 
+			"AND ((ps.presentationBegin BETWEEN ?2  AND ?3 ) OR " + 
+			"(ps.presentationEnd BETWEEN ?2  AND ?3 ) OR " + 
+			"( ?2 BETWEEN ps.presentationBegin AND ps.presentationEnd)) " +  
+			"AND id <> ?4")	
+	public int countByRoomByDateAndNotThis(Room room, LocalDateTime begin, LocalDateTime end, long id);
 }

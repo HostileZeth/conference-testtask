@@ -12,15 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sataev.conferencewebcrud.entity.User;
 import com.sataev.conferencewebcrud.service.UserService;
 
-//@RestController
 @Controller
 @RequestMapping("admin/users")
 public class UserEditController {
 	
-	@Autowired
-	private UserService userService;
-	
-	//@RequestMapping(value = {"/"}, method = {RequestMethod.GET})
+	@Autowired private UserService userService;
+
 	@GetMapping("/")
 	public String showUserList(Model model) {
 		model.addAttribute("users", userService.findAll());

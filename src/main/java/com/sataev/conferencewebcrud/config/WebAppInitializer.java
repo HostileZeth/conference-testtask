@@ -6,7 +6,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] {WebConfig.class}; // We dont need any special servlet config yet.
+		return new Class[] {WebConfig.class};
 	}
 
 	@Override
@@ -18,5 +18,4 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 	protected String[] getServletMappings() {
 		return new String[] {"/"};
 	}
-	
 }

@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,6 @@ import com.sataev.conferencewebcrud.entity.enumerable.Role;
 import com.sataev.conferencewebcrud.service.PresentationScheduleService;
 import com.sataev.conferencewebcrud.service.UserService;
 
-//@RestController
 @RestController
 public class MainMenuController {
 	
@@ -39,7 +39,6 @@ public class MainMenuController {
 	}
 	
 	@GetMapping("/signup")
-    //public ModelAndView showSignUpForm(User user) {
 	public ModelAndView showSignUpForm(User user) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("add-user");
@@ -47,77 +46,65 @@ public class MainMenuController {
     }
     
     @PostMapping("/adduser")
-    public ModelAndView addUser(User user, BindingResult result) {
-        
+    public ModelAndView addUser(@ModelAttribute("user") User user, BindingResult result) {
     	ModelAndView model = new ModelAndView();
     	
     	if (user.getUsername().isEmpty())
     		result.rejectValue("username", "error.wrongUsername", "Username cannot be empty");
-    	
     	if (user.getDisplayingName().isEmpty())
     		result.rejectValue("displayingName", "error.wrongDisplayingName", "Displaying name cannot be empty");
-		
     	if (result.hasErrors()) {
     		model.setViewName("add-user");
             return model;
         }
         
     	user.setRole(Role.LISTENER);
-    	
     	String password = user.getPassword();
     	user.setPassword(passwordEncoder.encode(password));
     	userService.save(user);
-    	
         model.setViewName("redirect:/");
         return model;
     }
 	
-
-	@RequestMapping(value = {"/", "/helloworld"}, method = {RequestMethod.GET})
+	@GetMapping({"/", "/helloworld"})
 	public ModelAndView welcomePage() {
 		ModelAndView model = new ModelAndView();
-		model.setViewName("helloworld");
+		model.setViewName("main-menu");
 		
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		User currentUser = userService.findById(username).orElse(null);
-		
 		Set<PresentationSchedule> userPresentationSignUps = null;
 		
 		int presentationsCounter = 0; 
-		
-		model.addObject("message", "Main Page !");
-		
+		model.addObject("message", "Main Menu ! Check page bottom for hints");
 		if (!username.equals("anonymousUser")) {
 			userPresentationSignUps = currentUser.getSignUps();
 			presentationsCounter = userPresentationSignUps.size();
-		
 			if (currentUser.getRole().equals(Role.LISTENER))
 				model.addObject("title", "Welcome. You have " + presentationsCounter + " presentations to visit. (only listeners see this info)");
 			else
 				model.addObject("title", "Welcome.");
-		}
-		else
+			} else {
 			model.addObject("title", "Welcome.");
+		}
 		
 		List<PresentationSchedule> orderedList = presentationScheduleService.findAllByOrderByRoomAscPresentationBeginAsc();
 		if (orderedList.size() == 0) return model;
 		
 		List<RoomScheduleDto> roomSchedule = generateRoomScheduleDtos(userPresentationSignUps, orderedList);
+		List<String> usernames = userService.getUsernames();
 		
+		model.addObject("usernames", usernames);
 		model.addObject("roomScheduleDtos", roomSchedule);
-		
 		return model;
 	}
 
+	//generates schedule for each room (main menu and JSON output)
 	private List<RoomScheduleDto> generateRoomScheduleDtos(Set<PresentationSchedule> userPresentationSignUps, List<PresentationSchedule> orderedList) {
-
 		Iterator<PresentationSchedule> presentationScheduleIterator = orderedList.iterator();
 		List<RoomScheduleDto> roomSchedule = new ArrayList<>();
 		PresentationSchedule current = presentationScheduleIterator.next();
 		RoomScheduleDto roomScheduleDto = new RoomScheduleDto(current.getRoom(), new ArrayList<PresentationSchedule>(Arrays.asList(current)));
-		
-		//		System.out.println(userPresentationSignUps);
-		// detect signups for presentations
 		
 		while (presentationScheduleIterator.hasNext()) {
 			current = presentationScheduleIterator.next();
@@ -156,9 +143,6 @@ public class MainMenuController {
 	
 	@GetMapping("/cancel/{id}")
 	public ModelAndView cancelPresentationSubscription(@PathVariable("id") long id, ModelAndView model) {
-		
-		//System.out.println("ID : " + id);
-		
 	    PresentationSchedule presentationSchedule = presentationScheduleService.findById(id)
 	    		.orElseThrow(() -> new IllegalArgumentException("Invalid presentation Id:" + id));
 	    
@@ -166,22 +150,14 @@ public class MainMenuController {
 		User currentUser = userService.findById(username).orElse(null);
 		
 		presentationSchedule.removeListener(currentUser);
-		
-		System.out.println("ID : " + id);
-		System.out.println(presentationSchedule);
-		System.out.println(currentUser);
-		
 		presentationScheduleService.save(presentationSchedule);
-			    
+		
 	    model.setViewName("redirect:/");
 	    return model;
 	}
 	
 	@GetMapping("/join/{id}")
-	public ModelAndView joinPresentation(@PathVariable("id") long id, ModelAndView model) {
-		
-		//System.out.println("ID : " + id);
-		
+	public ModelAndView joinPresentation(@PathVariable("id") long id, ModelAndView model) {		
 	    PresentationSchedule presentationSchedule = presentationScheduleService.findById(id)
 	    		.orElseThrow(() -> new IllegalArgumentException("Invalid presentation Id:" + id));
 	    
@@ -189,18 +165,15 @@ public class MainMenuController {
 		User currentUser = userService.findById(username).orElse(null);
 		
 		presentationSchedule.addListener(currentUser);
-		
 		presentationScheduleService.save(presentationSchedule);
 			    
 	    model.setViewName("redirect:/");
 	    return model;
 	}
 	
-	@RequestMapping(value = {"presenter/nothing"}, method = {RequestMethod.GET})
-	public ModelAndView protectedPage() {
+	@RequestMapping(value = {"/nothing", "presenter/nothing"}, method = {RequestMethod.GET})
+	public ModelAndView nothingHere() {
 		ModelAndView model = new ModelAndView();
-		//model.addObject("title", "Spring Security Tutorial");
-		//model.addObject("message", "Welcome Page !");
 		model.setViewName("nothing");
 		return model;
 	}
@@ -208,17 +181,13 @@ public class MainMenuController {
 	@RequestMapping(value = {"/forbidden"}, method = {RequestMethod.GET})
 	public ModelAndView forbiddenAccess() {
 		ModelAndView model = new ModelAndView();
-		//model.addObject("title", "Spring Security Tutorial");
-		//model.addObject("message", "Welcome Page !");
 		model.setViewName("forbidden");
 		return model;
 	}
 	
 	@RequestMapping(value = {"/api/v1/schedule/"}, method = {RequestMethod.GET})
 	public List<RoomScheduleDto> getScheduleJson() {
-		
 		List<RoomScheduleDto> x = generateRoomScheduleDtos(null, presentationScheduleService.findAllByOrderByRoomAscPresentationBeginAsc());
-		
 		return x;
 	}
 }

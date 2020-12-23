@@ -48,27 +48,22 @@ public class PresentationSchedule {
 			  inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private	List<User> presenters;
 	
-	//WARNING
 	@ManyToMany
 	@JoinTable(
 			  name = "listener_presentation", 
 			  joinColumns = @JoinColumn(name = "presentation_id"), 
 			  inverseJoinColumns = @JoinColumn(name = "user_id"))
 	@JsonIgnore
-	//private List<PresentationSchedule> listeners; - HERE IT IS
 	private Set<User> listeners;
 	
 	@ManyToOne
-	//@Column(name="room_id", )
 	@JoinColumn(name="room_id", table="schedule", nullable = false)
 	private Room room;
 	
-	//@Column(columnDefinition = "TIMESTAMP", name="presentation_begin", table="schedule")
 	@Column(columnDefinition = "TIMESTAMP", table="schedule")
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
 	private LocalDateTime presentationBegin;
 	
-	//@Column(columnDefinition = "TIMESTAMP", name="presentation_end", table="schedule")
 	@Column(columnDefinition = "TIMESTAMP", table="schedule")
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
 	private LocalDateTime presentationEnd;
@@ -84,9 +79,8 @@ public class PresentationSchedule {
 
 	public PresentationSchedule() {}
 	
-	public PresentationSchedule(long id, String title, User creator, Room room, LocalDateTime presentationBegin,
+	public PresentationSchedule(String title, User creator, Room room, LocalDateTime presentationBegin,
 			LocalDateTime presentationEnd) {
-		this.id = id;
 		this.title = title;
 		this.creator = creator;
 		this.room = room;

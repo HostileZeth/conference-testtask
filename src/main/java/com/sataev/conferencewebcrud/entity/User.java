@@ -31,7 +31,6 @@ public class User {
 	private Role role;
 	
 	@OneToMany(mappedBy = "creator", cascade = {CascadeType.ALL})
-	//@JoinColumn(name="creator_username", nullable = false)
 	@JsonIgnore
 	private List<PresentationSchedule> createdPresentations;
 	
@@ -57,6 +56,12 @@ public class User {
 		this.password = password;
 		this.displayingName = displayingName;
 		this.role = role;
+	}
+	
+	public User(String username, String password, String displayingName) {
+		this.username = username;
+		this.password = password;
+		this.displayingName = displayingName;
 	}
 	
 	public String getUsername() {

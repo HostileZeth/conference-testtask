@@ -1,8 +1,10 @@
-CREATE TABLE task (
-  id          BIGINT PRIMARY KEY,
-  description VARCHAR(64) NOT NULL,
-  completed   BIT NOT NULL);
-  
+DROP TABLE IF EXISTS presenter_presentation;
+DROP TABLE IF EXISTS listener_presentation;
+DROP TABLE IF EXISTS schedule;
+DROP TABLE IF EXISTS presentation;	
+DROP TABLE IF EXISTS users;	
+DROP TABLE IF EXISTS room;
+
 CREATE TABLE room (
 	id		BIGINT AUTO_INCREMENT PRIMARY KEY,
 	room_name VARCHAR(15) NOT NULL,
@@ -10,12 +12,14 @@ CREATE TABLE room (
 	constraint unique_rooms_constraint UNIQUE(room_name)
 	);
 	
+
 CREATE TABLE users (
   username VARCHAR(60) PRIMARY KEY,
   password VARCHAR(60) NOT NULL,
   displaying_name VARCHAR(60) NOT NULL,
   role ENUM('LISTENER', 'PRESENTER', 'ADMIN') NOT NULL);
-  
+
+
 CREATE TABLE presentation (
   id          BIGINT AUTO_INCREMENT PRIMARY KEY,
   title			VARCHAR(64) NOT NULL,
@@ -23,6 +27,7 @@ CREATE TABLE presentation (
   constraint fk_presentation_creator foreign key(creator_username) references users(username)
   );
   
+
 CREATE TABLE schedule (
   presentation_id BIGINT PRIMARY KEY,
   room_id BIGINT NOT NULL,
@@ -32,6 +37,7 @@ CREATE TABLE schedule (
   constraint fk_schedule_presentation foreign key(presentation_id) references presentation(id)
   );
 
+
 CREATE TABLE presenter_presentation (
   user_id VARCHAR(60) NOT NULL,
   presentation_id BIGINT NOT NULL,
@@ -39,7 +45,8 @@ CREATE TABLE presenter_presentation (
   constraint fk_pp_presentation foreign key(presentation_id) references presentation(id),
   constraint pk_presenter_pres primary key(user_id, presentation_id)
   );
-  
+
+
 CREATE TABLE listener_presentation (
   user_id VARCHAR(60) NOT NULL,
   presentation_id BIGINT NOT NULL,
@@ -47,8 +54,6 @@ CREATE TABLE listener_presentation (
   constraint fk_lp_presentation foreign key(presentation_id) references presentation(id),
   constraint pk_listener_pres primary key(user_id, presentation_id)
   );
-
-
 	
 -- security stuff -- duplicate data for security tables and general stuff ? -- or VIEW ?
 /*create table users(
