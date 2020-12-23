@@ -20,9 +20,9 @@ Initial account logins are:
 <p>Choosing rooms requires to input room name string.
 
 <p>Input validation mostly not implemented, so please be careful with input.
-<p>Yet, presentation schedule protected from overlaping (as it required by tech task).
+<p>Yet, presentation schedule protected from overlaping (as it required).
 
-<p><b>Presentation-Schedule</b> one-to-one relation merged into single entity PresentationSchedule.
+<p><b>Presentation-Schedule</b> one-to-one relation merged into single persistenr entity PresentationSchedule, but stored in DB as a separate tables (as it required).
 <p>Each Presentation-Schedule may have any number of supporting presenters and one main presenter who allowed to edit presentation info.
 
 <p>Promoting listeners to presenters implemented as a part of user edit page (admin only).
