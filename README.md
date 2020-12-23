@@ -3,13 +3,13 @@
 Web-app available on http://localhost:8080/
 
 Initial account logins are:
-admin
-presenter
-presenter2
-presenter3
-listener
-listener2
-(password equals login for initial accounts)
+<p>admin
+<p>presenter
+<p>presenter2
+<p>presenter3
+<p>listener
+<p>listener2
+<p>(password equals login for initial accounts)
 
 Input placeholders and main page contain hints
 
